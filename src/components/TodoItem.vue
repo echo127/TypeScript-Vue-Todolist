@@ -1,9 +1,19 @@
 <template>
   <div
     class="todo-item"
-    :class="{'is-complete': todoItem.completed}"
+    :class="{'is-complete': todo.completed}"
   >
-    <p>{{todoItem.title}}</p>
+    <p>
+      <input
+        type="checkbox"
+        v-on:change="markComplete"
+      >
+      {{todo.title}}
+      <button
+        @click="$emit('del-todo', todo.id)"
+        class="del"
+      >x</button>
+    </p>
   </div>
 </template>
 <script lang="ts">
@@ -11,7 +21,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class TodoItem extends Vue {
-  @Prop() private todoItem: any;
+  @Prop() private todo: any;
+  markComplete() {
+    this.todo.completed = !this.todo.completed;
+  }
 }
 </script>
 

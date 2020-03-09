@@ -1,28 +1,46 @@
 <template>
   <div id="app">
-    <Todos :todos="todos" />
+    <Header />
+    <AddTodo @add-todo="addTodo" />
+    <Todos
+      :todos="todos"
+      @del-todo="deleteTodo"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import Todos from "./components/Todos.vue";
+// import TodoItem from "./components/TodoItem.vue";
+import AddTodo from "./components/AddTodo.vue";
+import Header from "./components/layout/header.vue";
 
 @Component({
   components: {
-    Todos
+    AddTodo,
+    Todos,
+    Header
   },
   data() {
     return {
       todos: [
-        { id: 1, title: "Todo One", completed: true },
+        { id: 1, title: "Todo One", completed: false },
         { id: 2, title: "Todo Two", completed: false },
         { id: 3, title: "Todo Three", completed: false }
       ]
     };
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  deleteTodo(id: number) {
+    console.log(id);
+    this.$data.todos = this.$data.todos.filter(todo => todo.id !== id);
+  }
+  addTodo(NewTodo) {
+    this.$data.todos = [...this.$data.todos, NewTodo];
+  }
+}
 </script>
 
 <style>
