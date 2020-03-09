@@ -19,14 +19,18 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class AddTodo extends Vue {
   addTodo(e) {
-    e.preventDefault();
-    const newTodo = {
-      title: this.$data.title,
-      completed: false
-    };
-    //send up to app.vue
-    this.$emit('add-todo', newTodo);
-    this.$data.title = '';
+    if (this.$data.title.length !== 0) {
+      e.preventDefault();
+      const newTodo = {
+        title: this.$data.title,
+        completed: false
+      };
+      //send up to app.vue
+      this.$emit('add-todo', newTodo);
+      this.$data.title = '';
+    } else {
+      window.alert('Can not submit empty value, please add todos!');
+    }
   }
 }
 </script>
